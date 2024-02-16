@@ -18,10 +18,10 @@ public static class ConfigureServices
         services.AddAutoMapper(assembly);
         services.AddValidatorsFromAssembly(assembly);
 
-        services.AddLocalization(options =>
-        {
-            options.ResourcesPath = "Resources"; // Path to your .resx files
-        });
+        //services.AddLocalization(options =>
+        //{
+        //    options.ResourcesPath = "Resources"; // Path to your .resx files
+        //});
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

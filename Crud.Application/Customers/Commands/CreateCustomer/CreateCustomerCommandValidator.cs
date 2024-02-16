@@ -1,15 +1,8 @@
 ﻿using Crud.Application.Common.Extentions;
 using Crud.Application.Common.Interfaces;
-using Crud.Application.Customers.Commands.UpdateCustomer;
 using Crud.Application.Resources;
-using Crud.Domain.Entities;
 using FluentValidation;
-using IbanNet;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using PhoneNumbers;
-using System.Text.RegularExpressions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace Crud.Application.Customers.Commands.CreateCustomer;

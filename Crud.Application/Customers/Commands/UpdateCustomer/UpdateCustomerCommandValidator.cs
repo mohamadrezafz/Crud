@@ -2,13 +2,9 @@
 
 using Crud.Application.Common.Extentions;
 using Crud.Application.Common.Interfaces;
-using Crud.Application.Customers.Commands.CreateCustomer;
 using Crud.Application.Resources;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
-using PhoneNumbers;
-using System.Text.RegularExpressions;
 
 namespace Crud.Application.Customers.Commands.UpdateCustomer;
 
@@ -17,7 +13,7 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
     private readonly IApplicationDbContext _context;
 
 
-    public UpdateCustomerCommandValidator(IApplicationDbContext context, IStringLocalizer<UpdateCustomerCommand> localizer)
+    public UpdateCustomerCommandValidator(IApplicationDbContext context)
     {
         _context = context;
 
