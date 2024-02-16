@@ -29,6 +29,13 @@ public static class ConfigureServices
                 )
         );
 
+
+        //services.AddDbContext<ApplicationDbContext>(options =>
+        //    options.UseSqlServer(
+        //        connectionString,
+        //            builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+        //        ) , ServiceLifetime.Transient);
+
         return services;
     }
 }

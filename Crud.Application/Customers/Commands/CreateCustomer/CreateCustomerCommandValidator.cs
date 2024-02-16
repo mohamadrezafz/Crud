@@ -1,8 +1,16 @@
-﻿using Crud.Application.Common.Interfaces;
+﻿using Crud.Application.Common.Extentions;
+using Crud.Application.Common.Interfaces;
+using Crud.Application.Customers.Commands.UpdateCustomer;
+using Crud.Application.Resources;
+using Crud.Domain.Entities;
 using FluentValidation;
+using IbanNet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using PhoneNumbers;
+using System.Text.RegularExpressions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 
 namespace Crud.Application.Customers.Commands.CreateCustomer;
 
@@ -10,61 +18,66 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
 {
     private readonly IApplicationDbContext _context;
 
-    public CreateCustomerCommandValidator(IApplicationDbContext context , IStringLocalizer<CreateCustomerCommand> localizer)
+    public CreateCustomerCommandValidator(IApplicationDbContext context )
     {
         _context = context;
 
         RuleFor(command => command.FirstName)
         .NotEmpty()
-           .WithMessage(e => string.Format(localizer["IsRequired"], nameof(e.FirstName)))
+           .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.FirstName)))
            .MaximumLength(50)
-           .WithMessage(e => string.Format(localizer["MaximumLength"], nameof(e.FirstName)));
+           .WithMessage(e => string.Format(Messages.MaximumLength, nameof(e.FirstName)))
+           .MustAsync(IsUniqueCombination)
+           .WithMessage(e => Messages.UniqueFirstNameLastNameBirthdate);
 
         RuleFor(command => command.LastName)
             .NotEmpty()
-            .WithMessage(e => string.Format(localizer["IsRequired"], nameof(e.LastName)))
+            .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.LastName)))
             .MaximumLength(50)
-            .WithMessage(e => string.Format(localizer["MaximumLength"], nameof(e.LastName)));
+            .WithMessage(e => string.Format(Messages.MaximumLength, nameof(e.LastName)));
 
         RuleFor(command => command.DateOfBirth)
             .NotEmpty()
-            .WithMessage(e => string.Format(localizer["IsRequired"], nameof(e.DateOfBirth)));
+            .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.DateOfBirth)));
 
         RuleFor(command => command.BankAccountNumber)
             .NotEmpty()
-            .WithMessage(e => string.Format(localizer["IsRequired"], nameof(e.BankAccountNumber)));
+            .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.BankAccountNumber)))
+            .Must(Utilities.IsValidIban)
+            .WithMessage(Messages.IBANValidation);
 
         RuleFor(command => command.PhoneNumber)
             .NotEmpty()
-            .WithMessage(e => string.Format(localizer["IsRequired"], nameof(e.PhoneNumber)))
-            .Must(IsPhoneNumberValid)
-            .WithMessage(e => string.Format(localizer["PhoneNumberValidation"]));
+            .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.PhoneNumber)))
+            .Must(Utilities.IsPhoneNumberValid)
+            .WithMessage(e => Messages.PhoneNumberValidation);
 
         RuleFor(command => command.Email)
             .NotEmpty()
-            .WithMessage(e => string.Format(localizer["IsRequired"], nameof(e.Email)))
+            .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.Email)))
             .MustAsync(IsUniqueEmail)
-            .WithMessage(e => string.Format(localizer["EmailValidation"]))
-            .EmailAddress();
+            .WithMessage(Messages.EmailValidation)
+        .EmailAddress() ;
+
+
+
     }
 
-    private bool IsPhoneNumberValid(string phoneNumber)
+    private async Task<bool> IsUniqueEmail(string email, CancellationToken cancellationToken) =>
+       await _context.Customers.AllAsync(x => x.Email != email, cancellationToken);
+
+
+
+    private async Task<bool> IsUniqueCombination(CreateCustomerCommand command , string firstName , CancellationToken cancellationToken)
     {
-        // Use Google's LibPhoneNumber to validate mobile numbers
-        var phoneUtil = PhoneNumberUtil.GetInstance();
-        try
-        {
-            var parsedNumber = phoneUtil.Parse(phoneNumber, "");
-            return phoneUtil.IsValidNumber(parsedNumber);
-        }
-        catch (Exception)
-        {
+        var customer = await _context.Customers
+            .Where(x => x.FirstName == firstName && x.LastName == command.LastName && x.DateOfBirth == command.DateOfBirth)
+            .FirstOrDefaultAsync(cancellationToken);
 
-            return false;
-        }
-        
+        return customer != null ? false : true;
+
     }
-    private Task<bool> IsUniqueEmail(string email, CancellationToken cancellationToken) =>
-        _context.Customers.AnyAsync(x => x.Email == email, cancellationToken);
+
+
 
 }

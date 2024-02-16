@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Crud.Application.Customers.Queries.GetByPagination;
 
-public class GetCustomersPaginationQueryHandler : IRequestHandler<GetCustomersPaginationQuery,PaginationList<GetCustomersPaginationPaginationResponse>>
+public class GetCustomersPaginationQueryHandler : IRequestHandler<GetCustomersPaginationQuery,PaginationList<GetCustomersResponse>>
 {
     private readonly IMapper _mapper;
     private readonly IApplicationDbContext _context;
@@ -20,8 +20,8 @@ public class GetCustomersPaginationQueryHandler : IRequestHandler<GetCustomersPa
         _context = context;
     }
 
-    public Task<PaginationList<GetCustomersPaginationPaginationResponse>> Handle(GetCustomersPaginationQuery request, CancellationToken cancellationToken) =>
+    public Task<PaginationList<GetCustomersResponse>> Handle(GetCustomersPaginationQuery request, CancellationToken cancellationToken) =>
         _context.Customers
-            .ProjectTo<GetCustomersPaginationPaginationResponse>(_mapper.ConfigurationProvider)
+            .ProjectTo<GetCustomersResponse>(_mapper.ConfigurationProvider)
             .PaginatedListAsync(request.Page, request.Count);
 }

@@ -5,7 +5,7 @@ public interface IHasBaseEvent
 {
     public List<BaseEvent> BaseEvents { get; set; }
 }
-public class BaseEvent
+public abstract class BaseEvent
 {
     public bool IsPublish { get; set; }
     public DateTime DateTimeOccurred { get; set; } = DateTime.Now;

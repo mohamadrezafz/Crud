@@ -121,7 +121,10 @@
     <value>Page Count at least greater than or equal to 1.</value>
   </data>
   <data name="EmailValidation" xml:space="preserve">
-    <value>Invalid Email. Please ensure correct email format.</value>
+    <value>Email already exists please use another Email.</value>
+  </data>
+  <data name="IBANValidation" xml:space="preserve">
+    <value>Invalid Bank Account Number. Please ensure correct mobile format.</value>
   </data>
   <data name="IsRequired" xml:space="preserve">
     <value>{0} is required.</value>
@@ -133,6 +136,9 @@
     <value>Page  at least greater than or equal to 1.</value>
   </data>
   <data name="PhoneNumberValidation" xml:space="preserve">
-    <value>Invalid phone number. Please ensure correct mobile format.</value>
+    <value>Invalid phone number. Please ensure correct mobile format. e.g. +989120925888</value>
+  </data>
+  <data name="UniqueFirstNameLastNameBirthdate" xml:space="preserve">
+    <value>User already exists.</value>
   </data>
 </root>

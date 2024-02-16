@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Crud.Application.Customers.Queries.GetById;
 
-public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, GetCustomerByIdResponse>
+public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery, GetCustomersResponse>
 {
     private readonly IMapper _mapper;
     private readonly IApplicationDbContext _context;
@@ -20,11 +20,11 @@ public class GetCustomerByIdQueryHandler : IRequestHandler<GetCustomerByIdQuery,
         _context = context;
     }
 
-    public async Task<GetCustomerByIdResponse> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetCustomersResponse> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {
         var entity = await _context.Customers
             .Where(c => c.Id == request.Id)
-            .ProjectTo<GetCustomerByIdResponse>(_mapper.ConfigurationProvider)
+            .ProjectTo<GetCustomersResponse>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (entity == null)

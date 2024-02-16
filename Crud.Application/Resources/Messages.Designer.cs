@@ -70,11 +70,20 @@ namespace Crud.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid Email. Please ensure correct email format..
+        ///   Looks up a localized string similar to Email already exists please use another Email..
         /// </summary>
         internal static string EmailValidation {
             get {
                 return ResourceManager.GetString("EmailValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Bank Account Number. Please ensure correct mobile format..
+        /// </summary>
+        internal static string IBANValidation {
+            get {
+                return ResourceManager.GetString("IBANValidation", resourceCulture);
             }
         }
         
@@ -106,11 +115,20 @@ namespace Crud.Application.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid phone number. Please ensure correct mobile format..
+        ///   Looks up a localized string similar to Invalid phone number. Please ensure correct mobile format. e.g. +989120925888.
         /// </summary>
         internal static string PhoneNumberValidation {
             get {
                 return ResourceManager.GetString("PhoneNumberValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User already exists..
+        /// </summary>
+        internal static string UniqueFirstNameLastNameBirthdate {
+            get {
+                return ResourceManager.GetString("UniqueFirstNameLastNameBirthdate", resourceCulture);
             }
         }
     }

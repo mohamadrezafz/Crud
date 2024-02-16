@@ -13,10 +13,12 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.HasKey(c => c.Id);
 
         // Unique constraint on (FirstName, LastName, DateOfBirth)
-        builder.HasAlternateKey(c => new { c.FirstName, c.LastName, c.DateOfBirth });
-
+        //builder.HasAlternateKey(c => new { c.FirstName, c.LastName, c.DateOfBirth });
+        builder.HasIndex(c => new { c.FirstName, c.LastName, c.DateOfBirth }).IsUnique();
         //Unique constraint on email
-        builder.HasAlternateKey(c => c.Email);
+        // builder.HasAlternateKey(c => c.Email);
+
+        builder.HasIndex(c => c.Email).IsUnique();
 
         // Properties
         builder.Property(c => c.FirstName)
@@ -33,14 +35,17 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.Property(c => c.PhoneNumber)
             .IsRequired()
             .HasColumnType("varchar")
-            .HasMaxLength(20);
+            .HasMaxLength(15);
 
         builder.Property(c => c.Email)
             .IsRequired()
             .HasMaxLength(255);
 
         builder.Property(c => c.BankAccountNumber)
-            .HasMaxLength(255);
+            .IsRequired()
+            .HasMaxLength(34);
+
+        builder.Ignore(e => e.BaseEvents);
     }
 }
 

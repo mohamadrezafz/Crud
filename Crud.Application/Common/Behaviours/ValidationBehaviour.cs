@@ -3,6 +3,7 @@
 using MediatR;
 using FluentValidation;
 
+
 namespace Crud.Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
@@ -31,7 +32,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                 .ToList();
 
             if (failures.Any())
-                throw new ValidationException(failures);
+                throw new Exceptions.ValidationException(failures);
         }
         return await next();
     }
