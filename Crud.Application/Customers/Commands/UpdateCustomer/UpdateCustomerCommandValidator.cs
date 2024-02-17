@@ -12,12 +12,15 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
 {
     private readonly IApplicationDbContext _context;
 
+    /// <summary>
+    /// Validator for UpdateCustomerCommand to ensure the validity of updated customer data.
+    /// </summary>
 
     public UpdateCustomerCommandValidator(IApplicationDbContext context)
     {
         _context = context;
 
-
+        // Validation rules for various properties of the UpdateCustomerCommand
         RuleFor(command => command.FirstName)
         .NotEmpty()
            .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.FirstName)))
@@ -56,7 +59,7 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
             .EmailAddress();
     }
 
-
+    // Custom validation method to check if the email is unique for the updated customer
     private async Task<bool> IsUniqueEmail(UpdateCustomerCommand command, string email, CancellationToken cancellationToken)
     {
 
@@ -65,7 +68,7 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
         return await _context.Customers.AllAsync(c => c.Email != email, cancellationToken);
     }
 
-
+    // Custom validation method to check if the combination of first name, last name, and date of birth is unique for the updated customer
     private async Task<bool> IsUniqueCombination(UpdateCustomerCommand command, string firstName, CancellationToken cancellationToken)
     {
         var customer = await _context.Customers

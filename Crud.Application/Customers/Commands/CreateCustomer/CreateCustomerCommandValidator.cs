@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 
 namespace Crud.Application.Customers.Commands.CreateCustomer;
-
+/// <summary>
+/// Validator for CreateCustomerCommand to ensure the validity of customer data.
+/// </summary>
 public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
 {
     private readonly IApplicationDbContext _context;
@@ -15,6 +17,7 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
     {
         _context = context;
 
+        // Validation rules for various properties of the CreateCustomerCommand
         RuleFor(command => command.FirstName)
         .NotEmpty()
            .WithMessage(e => string.Format(Messages.IsRequired, nameof(e.FirstName)))
@@ -55,12 +58,12 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
 
 
     }
-
+    // Custom validation method to check if the email is unique
     private async Task<bool> IsUniqueEmail(string email, CancellationToken cancellationToken) =>
        await _context.Customers.AllAsync(x => x.Email != email, cancellationToken);
 
 
-
+    // Custom validation method to check if the combination of first name, last name, and date of birth is unique
     private async Task<bool> IsUniqueCombination(CreateCustomerCommand command , string firstName , CancellationToken cancellationToken)
     {
         var customer = await _context.Customers

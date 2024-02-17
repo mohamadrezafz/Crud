@@ -13,10 +13,7 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder.HasKey(c => c.Id);
 
         // Unique constraint on (FirstName, LastName, DateOfBirth)
-        //builder.HasAlternateKey(c => new { c.FirstName, c.LastName, c.DateOfBirth });
         builder.HasIndex(c => new { c.FirstName, c.LastName, c.DateOfBirth }).IsUnique();
-        //Unique constraint on email
-        // builder.HasAlternateKey(c => c.Email);
 
         builder.HasIndex(c => c.Email).IsUnique();
 

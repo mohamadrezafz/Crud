@@ -7,6 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Crud.Infrastructure.Services;
 
+/// <summary>
+/// Service responsible for publishing base events using MediatR.
+/// </summary>
 public class BaseEventService : IBaseEventService
 {
     private readonly ILogger<BaseEventService> _logger;
@@ -18,6 +21,10 @@ public class BaseEventService : IBaseEventService
         _mediator = mediator;
     }
 
+    /// <summary>
+    /// Publishes the provided base event and logs the event type.
+    /// </summary>
+    /// <param name="baseEvent">The base event to be published.</param>
     public async Task Publish(BaseEvent baseEvent)
     {
         _logger.LogInformation("event published - {0}", baseEvent.GetType().Name);
