@@ -13,6 +13,9 @@ namespace Crud.Application.Tests.Customers.Commands.CreateCustomer;
 
 public class CreateCustomerCommandValidatorTests
 {
+
+    #region privates
+
     private readonly ICollection<Customer> _customers = new List<Customer>
         {
             new()
@@ -21,28 +24,28 @@ public class CreateCustomerCommandValidatorTests
                 FirstName = "Reza",
                 LastName = "Tehran",
                 DateOfBirth = DateTime.Parse("9/3/1990"),
-                PhoneNumber = "+864473657383",
-                Email = "egreenhow0@oaic.au",
+                PhoneNumber = "+989120259388",
+                Email = "reza@gmail.com",
                 BankAccountNumber = "LT411593463320934097"
             },
             new()
             {
                 Id = 2,
-                FirstName = "Mari",
+                FirstName = "Mandana",
                 LastName = "Shayan",
                 DateOfBirth = DateTime.Parse("2/7/2000"),
                 PhoneNumber = "+639963187652",
-                Email = "ksherrin1@surveymonkey.com",
+                Email = "mandana@kukala.com",
                 BankAccountNumber = "TR3305582GTASOWMCZ0UMYHIU2"
             },
             new()
             {
                 Id = 3,
-                FirstName = "Winifred",
-                LastName = "Ranvoise",
-                DateOfBirth = DateTime.Parse("8/23/1989"),
-                PhoneNumber = "+62 264 4398525",
-                Email = "wranvoise2@virginia.edu",
+                FirstName = "Nafiseh",
+                LastName = "Roshan",
+                DateOfBirth = DateTime.Parse("8/10/1990"),
+                PhoneNumber = "+622644398525",
+                Email = "nafiseh@virginia.edu",
                 BankAccountNumber = "GE84LW8259319842791322"
             }
         };
@@ -51,6 +54,9 @@ public class CreateCustomerCommandValidatorTests
 
     private readonly CreateCustomerCommandValidator _validator;
 
+    #endregion
+
+    #region ctor
     public CreateCustomerCommandValidatorTests()
     {
         var mockDbSet = _customers.AsQueryable().BuildMockDbSet();
@@ -61,143 +67,152 @@ public class CreateCustomerCommandValidatorTests
         _validator = new CreateCustomerCommandValidator(_context);
     }
 
+    #endregion
 
+
+    #region FirstName and LastName and Birthdate Validation
     [Fact]
-    public async Task PreparedCommand_ShouldPass()
+    public async Task Default_String_FirstName_Should_Fail()
     {
-        var validationResult = await _validator.ValidateAsync(new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", "abelt9@wikispaces.com", "BA177369567652933471"));
-        validationResult.IsValid.Should().BeTrue();
+        var command = new CreateCustomerCommand("", "Firooz", DateTime.Parse("3/24/1994"), "+989120259301", "mohamadreza.firooz@gmail.com", "BA177369567652933471");
+        var validationResult = await _validator.ValidateAsync(command);
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[] { "FirstName is required." });
     }
-
     [Fact]
-    public async Task EmptyStringAsPhoneNumber_ShouldFail()
+    public async Task Max_String_FirstName_Should_Fail()
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "", "abelt9@wikispaces.com", "BA177369567652933471");
+        var command = new CreateCustomerCommand("sdsdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasfdsfsfdsfsfsdfdasd", "Firooz", DateTime.Parse("3/24/1994"), "+989120259301", "mohamadreza.firooz@gmail.com", "BA177369567652933471");
         var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-            ""
-        });
-    }
-
-    [Theory]
-    [InlineData("RandomString")]
-    public async Task RandomStringAsPhoneNumber_ShouldFail(string phoneNumber)
-    {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), phoneNumber, "abelt9@wikispaces.com", "BA177369567652933471");
-        var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-                ""
-        });
-    }
-
-    [Theory]
-    [InlineData("+31717805045")]
-    public async Task FixedLineNumber_ShouldFail(string phoneNumber)
-    {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), phoneNumber, "abelt9@wikispaces.com", "BA177369567652933471");
-        var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-                ""
-        });
-    }
-
-    [Theory]
-    [InlineData("+989029058590")]
-    public async Task MobileNumber_ShouldPass(string phoneNumber)
-    {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), phoneNumber, "abelt9@wikispaces.com", "BA177369567652933471");
-        var validationResult = await _validator.ValidateAsync(command);
-        validationResult.IsValid.Should().BeTrue();
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[] { "FirstName must be less than 50 characters." });
     }
 
     [Fact]
-    public async Task EmptyStringAsEmail_ShouldFail()
+    public async Task Default_String_LastName_Should_Fail()
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", "", "BA177369567652933471");
+        var command = new CreateCustomerCommand("Reza", "", DateTime.Parse("3/24/1994"), "+989120259301", "mohamadreza.firooz@gmail.com", "BA177369567652933471");
         var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-                "'Email' must not be empty.",
-                "'Email' is not a valid email address."
-            });
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[] { "LastName is required." });
+    }
+
+    [Fact]
+    public async Task Max_String_LastName_Should_Fail()
+    {
+        var command = new CreateCustomerCommand("Reza", "sdsdasdasdasdasdasdasdasdasdasdasdasdasdafssfdfdsfsdfsdasdasdasdasdasd", DateTime.Parse("3/24/1994"), "+989120259301", "mohamadreza.firooz@gmail.com", "BA177369567652933471");
+        var validationResult = await _validator.ValidateAsync(command);
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[] { "LastName must be less than 50 characters." });
+    }
+
+    [Fact]
+    public async Task Used_FirstName_LastName_BirthDate_Should_Fail()
+    {
+        var command = new CreateCustomerCommand("Reza", "Tehran", DateTime.Parse("9/3/1990"), "+989120259388", "reza2@gmail.com", "LT411593463320934097");
+        var validationResult = await _validator.ValidateAsync(command);
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[] { "User already exists." });
+    }
+
+    #endregion
+
+    #region PhoneNumber Validation
+
+    [Fact]
+    public async Task Default_String_PhoneNumber_Should_Fail()
+    {
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), "", "mohamadreza.firooz@gmail.com", "BA177369567652933471");
+        var validationResult = await _validator.ValidateAsync(command);
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]{ "PhoneNumber is required." , "Invalid phone number. Please ensure correct mobile format. e.g. +989120925888" });
     }
 
     [Theory]
-    [InlineData("RandomString")]
-    public async Task RandomStringAsEmail_ShouldFail(string email)
+    [InlineData("Test")]
+    public async Task Random_PhoneNumber_Should_Fail(string phoneNumber)
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", email, "BA177369567652933471");
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), phoneNumber, "mohamadreza.firooz@gmail.com", "BA177369567652933471");
         var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-                "'Email' is not a valid email address."
-            });
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]{"Invalid phone number. Please ensure correct mobile format. e.g. +989120925888"});
     }
 
     [Theory]
-    [InlineData("egreenhow0@oaic.gov.au")]
-    public async Task PreviouslyUsedEmail_ShouldFail(string email)
+    [InlineData("+989120259301")]
+    public async Task Valid_PhoneNumber_Should_Pass(string phoneNumber)
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", email, "BA177369567652933471");
-        var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-            ""
-        });
-    }
-
-    [Theory]
-    [InlineData("abelt9@wikispaces.com")]
-    public async Task CorrectAndUnusedEmail_ShouldPass(string email)
-    {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", email, "BA177369567652933471");
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), phoneNumber, "mohamadreza.firooz@gmail.com", "BA177369567652933471");
         var validationResult = await _validator.ValidateAsync(command);
         validationResult.IsValid.Should().BeTrue();
     }
 
+    #endregion
+
+
+    #region Email Validation
     [Fact]
-    public async Task EmptyStringAsAccountNumber_ShouldFail()
+    public async Task Default_String_Email_Should_Fail()
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", "abelt9@wikispaces.com", "");
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), "+989120259645", "", "BA177369567652933471");
         var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-                "'Bank Account Number' must not be empty.",
-                ""
-        });
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[] {"Email is required.", "'Email' is not a valid email address."});
     }
 
     [Theory]
-    [InlineData("RandomString")]
-    public async Task RandomStringAsAccountNumber_ShouldFail(string accountNumber)
+    [InlineData("Test")]
+    public async Task Random_Email_Should_Fail(string email)
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", "abelt9@wikispaces.com", accountNumber);
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), "+989120259645", email, "BA177369567652933471");
         var validationResult = await _validator.ValidateAsync(command);
-        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]
-        {
-                "",
-        });
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]{ "'Email' is not a valid email address."});
     }
 
+
     [Theory]
-    [InlineData("BA177369567652933471")]
-    public async Task IbanAsAccountNumber_ShouldFail(string accountNumber)
+    [InlineData("mohamadreza.firooz@gmail.com")]
+    public async Task Valid_Email_Should_Pass(string email)
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), "+989029058590", "abelt9@wikispaces.com", accountNumber);
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), "+989120259645", email, "BA177369567652933471");
         var validationResult = await _validator.ValidateAsync(command);
         validationResult.IsValid.Should().BeTrue();
     }
 
-    [Theory]
-    [InlineData("", "", "", 6)]
-    public async Task MultipleInvalidProperties_ShouldAccumulatesErrors(
-        string phoneNumber, string email, string accountNumber, int failureCount)
+    #endregion
+
+
+    #region AccountNumber Validation
+    [Fact]
+    public async Task Default_String_AccountNumber_Should_Fail()
     {
-        var command = new CreateCustomerCommand("Any", "Belt", DateTime.Parse("9/20/1988"), phoneNumber, email, accountNumber);
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), "+989120259645", "mohamadreza.firooz@gmail.com", "");
+        var validationResult = await _validator.ValidateAsync(command);
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[] { "BankAccountNumber is required.", "Invalid Bank Account Number. Please ensure correct mobile format." });
+    }
+
+    [Theory]
+    [InlineData("Test")]
+    public async Task Random_AccountNumber_Should_Fail(string accountNumber)
+    {
+        var command = new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), "+989120259645", "mohamadreza.firooz@gmail.com", accountNumber);
+        var validationResult = await _validator.ValidateAsync(command);
+        validationResult.Errors.Select(e => e.ErrorMessage).Should().BeEquivalentTo(new[]  { "Invalid Bank Account Number. Please ensure correct mobile format.",});
+    }
+
+    #endregion
+
+
+    #region All Validation
+    [Fact]
+    public async Task Test_Command_Should_Pass()
+    {
+        var validationResult = await _validator.ValidateAsync(new CreateCustomerCommand("Reza", "Firooz", DateTime.Parse("3/24/1994"), "+989120259645", "mohamadreza.firooz@gmail.com", "BA177369567652933471"));
+        validationResult.IsValid.Should().BeTrue();
+    }
+
+
+
+    [Theory]
+    [InlineData("", "", "", "", "", 8)]
+    public async Task All_Empty_Should_Fail(string firstName, string lastName, string phoneNumber, string email, string accountNumber, int failureCount)
+    {
+        var command = new CreateCustomerCommand(firstName, lastName, DateTime.Parse("3/24/1994"), phoneNumber, email, accountNumber);
         var validationResult = await _validator.ValidateAsync(command);
         validationResult.Errors.Count.Should().Be(failureCount);
     }
+    #endregion
+
 }

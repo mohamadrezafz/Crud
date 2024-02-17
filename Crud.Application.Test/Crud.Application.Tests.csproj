@@ -30,8 +30,4 @@
     <ProjectReference Include="..\Crud.Domain\Crud.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Customers\Queries\" />
-  </ItemGroup>
-
 </Project>
