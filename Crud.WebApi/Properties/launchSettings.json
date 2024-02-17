@@ -35,7 +35,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ISTEST": "true",
-        "ConnectionStrings__DefaultConnection": "Data Source=192.168.103.195;Initial Catalog=Crud;User ID=sa;Password=Ez$hopAdmin;MultipleActiveResultSets=True;TrustServerCertificate=True;"
+        "ConnectionStrings__DefaultConnection": "Data Source=localhost,1433;Initial Catalog=Crud;User Id=sa;Password=YourStrong!Passw0rd;MultipleActiveResultSets=True;TrustServerCertificate=True;"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
@@ -47,7 +47,7 @@
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
         "ASPNETCORE_HTTP_PORTS": "8080",
-        "ConnectionStrings__DefaultConnection": "Data Source=192.168.103.195;Initial Catalog=Crud;User ID=sa;Password=Ez$hopAdmin;MultipleActiveResultSets=True;TrustServerCertificate=True;"
+        "ConnectionStrings__DefaultConnection": "Data Source=localhost,1433;Initial Catalog=Crud;User Id=sa;Password=YourStrong!Passw0rd;MultipleActiveResultSets=True;TrustServerCertificate=True;"
       },
       "publishAllPorts": true,
       "useSSL": true
