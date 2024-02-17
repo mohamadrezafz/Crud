@@ -1,7 +1,6 @@
 ﻿
 
 using Crud.Application.Common.Interfaces;
-using Crud.Application.Customers.Commands.CreateCustomer;
 using Crud.Application.Customers.Commands.UpdateCustomer;
 using Crud.Domain.Entities;
 using FluentAssertions;
