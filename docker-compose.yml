@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  crud.webapi:
+    image: ${DOCKER_REGISTRY-}crudwebapi
+    build:
+      context: .
+      dockerfile: Crud.WebApi/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Data Source=sqlserver;Initial Catalog=Crud;User Id=sa;Password=YourStrong!Passw0rd;MultipleActiveResultSets=True;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"

@@ -7,17 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{469D3A8C-F70
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{74D9231D-DB09-4593-A4D1-7B1D626F4524}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.Application", "Crud.Application\Crud.Application.csproj", "{3372ADA9-9AFB-49BC-9EA4-B5C360C0BB94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Application", "Crud.Application\Crud.Application.csproj", "{3372ADA9-9AFB-49BC-9EA4-B5C360C0BB94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.Domain", "Crud.Domain\Crud.Domain.csproj", "{108A07AA-1709-45EB-BF7B-CA5E034429D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Domain", "Crud.Domain\Crud.Domain.csproj", "{108A07AA-1709-45EB-BF7B-CA5E034429D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.Infrastructure", "Crud.Infrastructure\Crud.Infrastructure.csproj", "{BF0F44D1-F183-4BA5-AD96-6B5A62AE5E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Infrastructure", "Crud.Infrastructure\Crud.Infrastructure.csproj", "{BF0F44D1-F183-4BA5-AD96-6B5A62AE5E80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.WebApi", "Crud.WebApi\Crud.WebApi.csproj", "{B700E29A-459E-4569-95A9-5413F955ADE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.WebApi", "Crud.WebApi\Crud.WebApi.csproj", "{B700E29A-459E-4569-95A9-5413F955ADE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.Application.Tests", "Crud.Application.Test\Crud.Application.Tests.csproj", "{96E2FCF3-9126-41AE-A63D-E371B47DA43E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Application.Tests", "Crud.Application.Test\Crud.Application.Tests.csproj", "{96E2FCF3-9126-41AE-A63D-E371B47DA43E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crud.Infrastructure.Tests", "Crud.Infrastructure.Tests\Crud.Infrastructure.Tests.csproj", "{6A3663F5-F16A-4E35-A55F-052AC4A5E59B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Infrastructure.Tests", "Crud.Infrastructure.Tests\Crud.Infrastructure.Tests.csproj", "{6A3663F5-F16A-4E35-A55F-052AC4A5E59B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F45C0887-35ED-4006-8CA0-7BAAB7475307}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{6A3663F5-F16A-4E35-A55F-052AC4A5E59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A3663F5-F16A-4E35-A55F-052AC4A5E59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A3663F5-F16A-4E35-A55F-052AC4A5E59B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45C0887-35ED-4006-8CA0-7BAAB7475307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45C0887-35ED-4006-8CA0-7BAAB7475307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45C0887-35ED-4006-8CA0-7BAAB7475307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45C0887-35ED-4006-8CA0-7BAAB7475307}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

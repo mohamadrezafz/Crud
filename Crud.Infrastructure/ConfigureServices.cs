@@ -20,6 +20,8 @@ public static class ConfigureServices
 
         services.AddScoped<IBaseEventService, BaseEventService>();
 
+        services.AddScoped<ApplicationDbContextInitialiser>();
+
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDbContext<ApplicationDbContext>(options =>
