@@ -140,6 +140,7 @@ public class CreateCustomerCommandValidatorTests
         validationResult.IsValid.Should().BeTrue();
     }
 
+
     #endregion
 
 

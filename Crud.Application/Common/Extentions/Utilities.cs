@@ -14,8 +14,19 @@ public static class Utilities
         var phoneUtil = PhoneNumberUtil.GetInstance();
         try
         {
+
+
             var parsedNumber = phoneUtil.Parse(phoneNumber, "");
-            return phoneUtil.IsValidNumber(parsedNumber);
+
+            var numberType = phoneUtil.GetNumberType(parsedNumber);
+
+            if(numberType == PhoneNumberType.MOBILE)
+                return true;
+            else
+                return false;
+            
+
+           // return phoneUtil.IsValidNumber(parsedNumber);
         }
         catch (Exception)
         {
